@@ -19,8 +19,8 @@ const UserSchema = new Schema({
   profilePic: {
     type: String,
   },
-  associates: [{ type: Schema.Types.ObjectId, ref: "Users" }],
-  rooms: [{ type: Schema.Types.ObjectId, ref: "Rooms" }],
+  associates: [{ type: Schema.Types.ObjectId, ref: "user" }],
+  rooms: [{ type: Schema.Types.ObjectId, ref: "room" }],
 });
 
 UserSchema.pre("save", async function (next) {

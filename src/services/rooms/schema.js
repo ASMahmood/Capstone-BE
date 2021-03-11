@@ -5,12 +5,12 @@ const RoomSchema = new Schema({
     type: String,
     required: true,
   },
-  participants: [{ type: Schema.Types.ObjectId, ref: "Users" }],
-  chatHistory: [{ type: Schema.Types.ObjectId, ref: "Messages" }],
+  participants: [{ type: Schema.Types.ObjectId, ref: "user" }],
+  chatHistory: [{ type: Schema.Types.ObjectId, ref: "message" }],
   images: [
     {
       canvasData: { type: String },
-      sender: { type: Schema.Types.ObjectId, ref: "Users" },
+      sender: { type: Schema.Types.ObjectId, ref: "user" },
     },
   ],
 });

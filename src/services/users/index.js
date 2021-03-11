@@ -39,7 +39,7 @@ userRouter.post("/login", async (req, res, next) => {
 
 userRouter.get("/", authorizeUser, async (req, res, next) => {
   try {
-    const allUsers = await UserModel.find();
+    const allUsers = await UserModel.find().populate("rooms");
     res.send(allUsers);
   } catch (error) {
     console.log(error);
