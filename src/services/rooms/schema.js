@@ -6,13 +6,7 @@ const RoomSchema = new Schema({
     required: true,
   },
   participants: [{ type: Schema.Types.ObjectId, ref: "Users" }],
-  chatHistory: [
-    {
-      message: { type: String, required: true },
-      sender: { type: Schema.Types.ObjectId, ref: "Users" },
-      date: new Date(),
-    },
-  ],
+  chatHistory: [{ type: Schema.Types.ObjectId, ref: "Messages" }],
   images: [
     {
       canvasData: { type: String },
@@ -20,5 +14,16 @@ const RoomSchema = new Schema({
     },
   ],
 });
+
+RoomSchema.statics.addUserToRoom = async function (userId, roomId) {
+  try {
+    const updatedRoom = await this.findByIdAndUpdate(roomId, {
+      $addToSet: { participants: userId },
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
 
 module.exports = model("room", RoomSchema);

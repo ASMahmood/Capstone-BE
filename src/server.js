@@ -2,8 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
-const usersRoute = require("./services/users");
 
+const usersRoute = require("./services/users");
+const roomsRoute = require("./services/rooms");
 const catchAllHandler = require("./utilities/errorHandling");
 
 const port = process.env.PORT;
@@ -14,6 +15,7 @@ server.use(cookieParser());
 server.use(express.json());
 
 server.use("/users", usersRoute);
+server.use("/rooms", roomsRoute);
 server.use(catchAllHandler);
 
 mongoose

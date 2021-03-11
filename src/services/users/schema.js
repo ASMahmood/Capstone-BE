@@ -45,4 +45,15 @@ UserSchema.statics.findByCredentials = async function (email, password) {
   }
 };
 
+UserSchema.statics.addRoomToUser = async function (userId, roomId) {
+  try {
+    const updatedUser = await this.findByIdAndUpdate(userId, {
+      $addToSet: { rooms: roomId },
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 module.exports = model("user", UserSchema);
