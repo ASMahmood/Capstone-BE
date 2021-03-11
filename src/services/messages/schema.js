@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const MessageSchema = new Schema(
   {
-    message: {
+    text: {
       type: String,
       required: true,
     },

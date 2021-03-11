@@ -2,13 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
+const http = require("http");
 
+const createSocketServer = require("./socket");
 const usersRoute = require("./services/users");
 const roomsRoute = require("./services/rooms");
 const catchAllHandler = require("./utilities/errorHandling");
 
 const port = process.env.PORT;
 const server = express();
+const httpServer = http.createServer(server);
+createSocketServer(httpServer);
 
 server.use(cors());
 server.use(cookieParser());
@@ -24,7 +28,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(
-    server.listen(port, () => {
+    httpServer.listen(port, () => {
       console.log("Server cooking meth worth £", port);
     })
   );
