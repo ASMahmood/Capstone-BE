@@ -33,6 +33,13 @@ const createSocketServer = (server) => {
         console.log(error);
       }
     });
+
+    socket.on("LEAVE_ROOM", async (data) => {
+      try {
+      } catch (error) {
+        console.log(error);
+      }
+    });
   });
 };
 
