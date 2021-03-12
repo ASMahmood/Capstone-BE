@@ -22,7 +22,13 @@ roomRouter.post("/", authorizeUser, async (req, res, next) => {
 //GET ALL ROOMS
 roomRouter.get("/", authorizeUser, async (req, res, next) => {
   try {
-    const allRooms = await RoomModel.find().populate("participants");
+    const allRooms = await RoomModel.find().populate({
+      path: "participants",
+      populate: {
+        path: "user",
+        model: "user",
+      },
+    });
     res.send(allRooms);
   } catch (error) {
     console.log(error);

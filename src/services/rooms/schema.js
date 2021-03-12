@@ -5,7 +5,12 @@ const RoomSchema = new Schema({
     type: String,
     required: true,
   },
-  participants: [{ type: Schema.Types.ObjectId, ref: "user" }],
+  participants: [
+    {
+      user: { type: Schema.Types.ObjectId, ref: "user" },
+      socketId: { type: String },
+    },
+  ],
   chatHistory: [{ type: Schema.Types.ObjectId, ref: "message" }],
   images: [
     {
@@ -18,7 +23,7 @@ const RoomSchema = new Schema({
 RoomSchema.statics.addUserToRoom = async function (userId, roomId) {
   try {
     const updatedRoom = await this.findByIdAndUpdate(roomId, {
-      $addToSet: { participants: userId },
+      $addToSet: { participants: { user: userId } },
     });
   } catch (error) {
     console.log(error);

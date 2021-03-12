@@ -1,5 +1,5 @@
 const socketio = require("socket.io");
-const { addMessageToRoom } = require("./databaseInteractions");
+const { addUserSocketToRoom } = require("./databaseInteractions");
 
 const createSocketServer = (server) => {
   const io = socketio(server);
@@ -10,6 +10,8 @@ const createSocketServer = (server) => {
     socket.on("JOIN_ROOM", async (data) => {
       try {
         socket.join(data.roomId);
+
+        await addUserSocketToRoom(data, socket.id);
 
         const onlineMessage = {
           sender: "Corporate God: Jeff Bazos",
