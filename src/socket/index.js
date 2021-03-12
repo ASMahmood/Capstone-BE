@@ -1,5 +1,8 @@
 const socketio = require("socket.io");
-const { addUserSocketToRoom } = require("./databaseInteractions");
+const {
+  addUserSocketToRoom,
+  getUsersInRoom,
+} = require("./databaseInteractions");
 
 const createSocketServer = (server) => {
   const io = socketio(server);
@@ -20,6 +23,12 @@ const createSocketServer = (server) => {
         };
 
         socket.broadcast.to(data.roomId).emit("CHAT_MESSAGE", onlineMessage);
+
+        const userList = await getUsersInRoom(data.roomId);
+        io.to(data.roomId).emit("roomData", {
+          room: data.roomId,
+          list: userList,
+        });
       } catch (error) {
         console.log(error);
       }

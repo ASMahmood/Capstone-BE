@@ -16,11 +16,13 @@ const addUserSocketToRoom = async (data, socketId) => {
   }
 };
 
-const getUsersInRoom = async () => {
+const getUsersInRoom = async (roomId) => {
   try {
+    const room = await RoomModel.findById(roomId);
+    return room.participants;
   } catch (error) {
     console.log(error);
   }
 };
 
-module.exports = { addUserSocketToRoom };
+module.exports = { addUserSocketToRoom, getUsersInRoom };
