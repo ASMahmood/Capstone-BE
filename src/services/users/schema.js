@@ -23,6 +23,16 @@ const UserSchema = new Schema({
   rooms: [{ type: Schema.Types.ObjectId, ref: "room" }],
 });
 
+UserSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+
+  delete userObject.password;
+  delete userObject.__v;
+
+  return userObject;
+};
+
 UserSchema.pre("save", async function (next) {
   const user = this;
   const plainPW = user.password;
