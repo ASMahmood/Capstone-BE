@@ -60,9 +60,9 @@ roomRouter.put(
     console.log(req.params.userId);
     try {
       if (req.user._id.toString() === req.params.userId) {
-        res.send("authorized");
         await RoomModel.addUserToRoom(req.params.userId, req.params.roomId);
         await UserModel.addRoomToUser(req.params.userId, req.params.roomId);
+        res.send({ message: "authorized" });
       } else {
         res.status(401).send({ message: "This is not your account!" });
       }
