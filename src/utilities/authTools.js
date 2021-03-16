@@ -5,7 +5,7 @@ const authorizeUser = async (req, res, next) => {
   try {
     const accessToken = req.cookies.accessToken;
     const decoded = await verifyAccessToken(accessToken);
-    const user = await UserModel.findById(decoded._id);
+    const user = await UserModel.findById(decoded._id).populate("rooms");
     if (!user) {
       throw new Error();
     }

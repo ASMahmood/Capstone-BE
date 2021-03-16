@@ -63,7 +63,9 @@ userRouter.get("/me", authorizeUser, async (req, res, next) => {
 
 userRouter.get("/:id", authorizeUser, async (req, res, next) => {
   try {
-    const singleUser = await UserModel.findById(req.params.id);
+    const singleUser = await UserModel.findById(req.params.id).populate(
+      "rooms"
+    );
     if (singleUser) {
       res.send(singleUser);
     } else {
