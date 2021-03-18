@@ -34,6 +34,8 @@ const createSocketServer = (server) => {
       }
     });
 
+    socket.on("drawing", (data) => socket.broadcast.emit("drawing", data));
+
     socket.on("LEAVE_ROOM", async (data) => {
       try {
       } catch (error) {
