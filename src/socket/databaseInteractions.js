@@ -40,4 +40,8 @@ const getUsersInRoom = async (roomId) => {
   }
 };
 
-module.exports = { addUserSocketToRoom, getUsersInRoom };
+module.exports = {
+  addUserSocketToRoom,
+  getUsersInRoom,
+  removeUserSocketFromRoom,
+};
