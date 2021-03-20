@@ -18,6 +18,13 @@ const addUserSocketToRoom = async (data, socketId) => {
 
 const removeUserSocketFromRoom = async (data) => {
   try {
+    await RoomModel.findOneAndUpdate(
+      {
+        _id: data.roomId,
+        "participants.user": data.userId,
+      },
+      { "participants.$.socketId": "" }
+    );
   } catch (error) {
     console.log(error);
   }

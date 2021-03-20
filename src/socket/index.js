@@ -2,6 +2,7 @@ const socketio = require("socket.io");
 const {
   addUserSocketToRoom,
   getUsersInRoom,
+  removeUserSocketFromRoom,
 } = require("./databaseInteractions");
 
 const createSocketServer = (server) => {
@@ -40,6 +41,23 @@ const createSocketServer = (server) => {
 
     socket.on("LEAVE_ROOM", async (data) => {
       try {
+        socket.leave(data.roomId);
+
+        await removeUserSocketFromRoom(data, socket.id);
+
+        const offlineMessage = {
+          sender: "Corporate God: Jeff Bazos",
+          text: `${data.username} is now offline`,
+          createdAt: new Date(),
+        };
+
+        socket.broadcast.to(data.roomId).emit("CHAT_MESSAGE", offlineMessage);
+
+        const userList = await getUsersInRoom(data.roomId);
+        io.to(data.roomId).emit("roomData", {
+          room: data.roomId,
+          list: userList,
+        });
       } catch (error) {
         console.log(error);
       }
