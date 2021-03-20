@@ -34,7 +34,9 @@ const createSocketServer = (server) => {
       }
     });
 
-    socket.on("drawing", (data) => socket.broadcast.emit("drawing", data));
+    socket.on("drawing", (data) =>
+      socket.to(data.roomId).broadcast.emit("drawing", data)
+    );
 
     socket.on("LEAVE_ROOM", async (data) => {
       try {

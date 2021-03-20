@@ -25,6 +25,7 @@ const removeUserSocketFromRoom = async (data) => {
 
 const getUsersInRoom = async (roomId) => {
   try {
+    console.log(roomId);
     const room = await RoomModel.findById(roomId);
     return room.participants;
   } catch (error) {
