@@ -23,7 +23,7 @@ const createSocketServer = (server) => {
           createdAt: new Date(),
         };
 
-        socket.broadcast.to(data.roomId).emit("CHAT_MESSAGE", onlineMessage);
+        socket.to(data.roomId).broadcast.emit("CHAT_MESSAGE", onlineMessage);
 
         const userList = await getUsersInRoom(data.roomId);
         io.to(data.roomId).emit("roomData", {
@@ -51,7 +51,7 @@ const createSocketServer = (server) => {
           createdAt: new Date(),
         };
 
-        socket.broadcast.to(data.roomId).emit("CHAT_MESSAGE", offlineMessage);
+        socket.to(data.roomId).broadcast.emit("CHAT_MESSAGE", offlineMessage);
 
         const userList = await getUsersInRoom(data.roomId);
         io.to(data.roomId).emit("roomData", {
