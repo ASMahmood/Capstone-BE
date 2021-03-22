@@ -32,9 +32,24 @@ const removeUserSocketFromRoom = async (data) => {
 
 const getUsersInRoom = async (roomId) => {
   try {
-    console.log(roomId);
     const room = await RoomModel.findById(roomId);
     return room.participants;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addMessageToRoom = async (data) => {
+  try {
+    await RoomModel.findByIdAndUpdate(data.roomId, {
+      $push: {
+        chatHistory: {
+          sender: data.sender,
+          text: data.text,
+          createdAt: data.createdAt,
+        },
+      },
+    });
   } catch (error) {
     console.log(error);
   }
@@ -44,4 +59,5 @@ module.exports = {
   addUserSocketToRoom,
   getUsersInRoom,
   removeUserSocketFromRoom,
+  addMessageToRoom,
 };

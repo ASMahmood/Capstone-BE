@@ -3,6 +3,7 @@ const {
   addUserSocketToRoom,
   getUsersInRoom,
   removeUserSocketFromRoom,
+  addMessageToRoom,
 } = require("./databaseInteractions");
 
 const createSocketServer = (server) => {
@@ -63,9 +64,10 @@ const createSocketServer = (server) => {
       }
     });
 
-    socket.on("CHAT_MESSAGE", (data) =>
-      socket.to(data.roomId).emit("CHAT_MESSAGE", data)
-    );
+    socket.on("CHAT_MESSAGE", async (data) => {
+      await addMessageToRoom(data);
+      socket.to(data.roomId).emit("CHAT_MESSAGE", data);
+    });
   });
 };
 

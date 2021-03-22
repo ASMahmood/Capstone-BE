@@ -11,7 +11,13 @@ const RoomSchema = new Schema({
       socketId: { type: String },
     },
   ],
-  chatHistory: [{ type: Schema.Types.ObjectId, ref: "message" }],
+  chatHistory: [
+    {
+      sender: { type: String },
+      text: { type: String },
+      createdAt: { type: String },
+    },
+  ],
   images: [
     {
       canvasData: { type: String },
