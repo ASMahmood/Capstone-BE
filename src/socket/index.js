@@ -62,6 +62,10 @@ const createSocketServer = (server) => {
         console.log(error);
       }
     });
+
+    socket.on("CHAT_MESSAGE", (data) =>
+      socket.to(data.roomId).emit("CHAT_MESSAGE", data)
+    );
   });
 };
 
