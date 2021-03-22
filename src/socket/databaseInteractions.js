@@ -55,9 +55,18 @@ const addMessageToRoom = async (data) => {
   }
 };
 
+const updateRoomCanvas = async (data) => {
+  try {
+    await RoomModel.findByIdAndUpdate(data.roomId, { images: data.canvasData });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   addUserSocketToRoom,
   getUsersInRoom,
   removeUserSocketFromRoom,
   addMessageToRoom,
+  updateRoomCanvas,
 };

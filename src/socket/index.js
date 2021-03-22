@@ -4,6 +4,7 @@ const {
   getUsersInRoom,
   removeUserSocketFromRoom,
   addMessageToRoom,
+  updateRoomCanvas,
 } = require("./databaseInteractions");
 
 const createSocketServer = (server) => {
@@ -67,6 +68,10 @@ const createSocketServer = (server) => {
     socket.on("CHAT_MESSAGE", async (data) => {
       await addMessageToRoom(data);
       socket.to(data.roomId).emit("CHAT_MESSAGE", data);
+    });
+
+    socket.on("CANVAS_DATA", async (data) => {
+      await updateRoomCanvas(data);
     });
   });
 };

@@ -18,12 +18,9 @@ const RoomSchema = new Schema({
       createdAt: { type: String },
     },
   ],
-  images: [
-    {
-      canvasData: { type: String },
-      sender: { type: Schema.Types.ObjectId, ref: "user" },
-    },
-  ],
+  images: {
+    type: String,
+  },
 });
 
 RoomSchema.statics.addUserToRoom = async function (userId, roomId) {
