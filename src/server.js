@@ -7,6 +7,7 @@ const http = require("http");
 const createSocketServer = require("./socket");
 const usersRoute = require("./services/users");
 const roomsRoute = require("./services/rooms");
+const fileRoute = require("./services/files");
 const catchAllHandler = require("./utilities/errorHandling");
 
 const port = process.env.PORT;
@@ -36,6 +37,7 @@ server.use(express.json());
 
 server.use("/users", usersRoute);
 server.use("/rooms", roomsRoute);
+server.use("/files", fileRoute);
 server.use(catchAllHandler);
 
 mongoose
@@ -48,10 +50,3 @@ mongoose
       console.log("Server cooking meth worth £", port);
     })
   );
-
-let gfs;
-mongoose.connection.once("open", () => {
-  gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-    bucketName: "uploads",
-  });
-});
