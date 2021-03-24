@@ -34,6 +34,7 @@ const corsOptions = {
 server.use(cors(corsOptions));
 server.use(cookieParser());
 server.use(express.json());
+server.set("view engine", "ejs");
 
 server.use("/users", usersRoute);
 server.use("/rooms", roomsRoute);
