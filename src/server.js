@@ -48,3 +48,10 @@ mongoose
       console.log("Server cooking meth worth £", port);
     })
   );
+
+let gfs;
+mongoose.connection.once("open", () => {
+  gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+    bucketName: "uploads",
+  });
+});
