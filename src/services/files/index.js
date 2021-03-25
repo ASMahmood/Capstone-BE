@@ -82,4 +82,23 @@ fileRouter.get("/", (req, res) => {
   });
 });
 
+fileRouter.get("/:filename", (req, res) => {
+  const file = gfs
+    .find({
+      filename: req.params.filename,
+    })
+    .toArray((err, files) => {
+      if (!files || files.length === 0) {
+        return res.status(404).json({
+          err: "no files exist",
+        });
+      }
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename=${req.params.filename}`
+      );
+      gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+    });
+});
+
 module.exports = fileRouter;
