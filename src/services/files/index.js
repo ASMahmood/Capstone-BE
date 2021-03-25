@@ -54,7 +54,7 @@ fileRouter.get("/", (req, res) => {
   gfs.find().toArray((err, files) => {
     // check if files
     if (!files || files.length === 0) {
-      return res.send("failure");
+      return res.send({ message: "failure" });
     } else {
       const f = files
         .map((file) => {
@@ -75,7 +75,7 @@ fileRouter.get("/", (req, res) => {
           );
         });
 
-      return res.send("success?");
+      return res.send({ message: "success?" });
     }
 
     // return res.json(files);
