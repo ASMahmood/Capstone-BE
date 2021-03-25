@@ -47,6 +47,7 @@ const addMessageToRoom = async (data) => {
           sender: data.sender,
           text: data.text,
           createdAt: data.createdAt,
+          attachment: data.attachment,
         },
       },
     });

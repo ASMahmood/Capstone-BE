@@ -16,6 +16,7 @@ const RoomSchema = new Schema({
       sender: { type: String },
       text: { type: String },
       createdAt: { type: String },
+      attachment: { type: String },
     },
   ],
   images: {

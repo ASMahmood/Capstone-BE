@@ -41,8 +41,7 @@ const upload = multer({
 });
 
 fileRouter.post("/upload", upload.single("file"), (req, res) => {
-  // res.json({file : req.file})
-  res.redirect("/files/");
+  res.send({ message: req.file.filename });
 });
 
 fileRouter.get("/", (req, res) => {
@@ -75,7 +74,7 @@ fileRouter.get("/", (req, res) => {
           );
         });
 
-      return res.send({ message: "success?" });
+      return res.send(files);
     }
 
     // return res.json(files);
