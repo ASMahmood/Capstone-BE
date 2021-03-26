@@ -73,7 +73,11 @@ const createSocketServer = (server) => {
     socket.on("CANVAS_DATA", async (data) => {
       await updateRoomCanvas(data);
     });
+
+    socket.on("error", (data) => console.log(data));
   });
+
+  io.on("error", (data) => console.log(data));
 };
 
 module.exports = createSocketServer;
