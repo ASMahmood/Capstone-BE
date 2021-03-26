@@ -3,6 +3,7 @@ const {
   authenticateUser,
   authorizeUser,
 } = require("../../utilities/authTools");
+const sgMail = require("@sendgrid/mail");
 const RoomModel = require("./schema");
 const UserModel = require("../users/schema");
 const roomRouter = express.Router();
