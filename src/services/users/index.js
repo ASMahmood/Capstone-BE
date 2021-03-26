@@ -28,9 +28,13 @@ userRouter.post("/login", async (req, res, next) => {
       res
         .cookie("accessToken", tokens.accessToken, {
           httpOnly: true,
+          secure: true, //set to true when deploy
+          sameSite: "none", //set to none when deploy
         })
         .cookie("refreshToken", tokens.refreshToken, {
           httpOnly: true,
+          secure: true, //set to true when deploy
+          sameSite: "none", //set to none when deploy
         })
         .send({ message: "logged in" });
     } else {
