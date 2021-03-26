@@ -10,11 +10,9 @@ const fileRouter = express.Router();
 
 let gfs;
 mongoose.connection.once("open", () => {
-  console.log("I'm in ova ere, in da file");
   gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
     bucketName: "files",
   });
-  console.log(gfs);
 });
 
 const storage = new GridFsStorage({
