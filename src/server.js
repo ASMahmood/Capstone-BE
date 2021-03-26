@@ -13,7 +13,7 @@ const catchAllHandler = require("./utilities/errorHandling");
 const port = process.env.PORT;
 const server = express();
 const httpServer = http.createServer(server);
-createSocketServer(httpServer);
+// createSocketServer(httpServer);
 
 const whitelist = [
   "http://localhost:3000",
