@@ -38,7 +38,7 @@ server.set("view engine", "ejs");
 
 server.use("/users", usersRoute);
 server.use("/rooms", roomsRoute);
-server.use("/files", fileRoute);
+// server.use("/files", fileRoute);
 server.use(catchAllHandler);
 
 mongoose
