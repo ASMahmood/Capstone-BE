@@ -90,11 +90,11 @@ roomRouter.post(
           text: "You have been invited",
           html: `<strong>You have been invited to a new room. <a href='http://localhost:3000/room/${req.params.roomId}?join="true"'>Click here<a/> to join!</strong>`,
         };
+        await sgMail.send(msg);
+        res.send({ message: "Invite sent!" });
       } else {
         res.send({ message: "No User with this email found!" });
       }
-
-      await sgMail.send(msg);
     } catch (error) {
       console.log(error);
       next(error);
