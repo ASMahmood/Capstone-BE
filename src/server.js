@@ -20,6 +20,7 @@ const whitelist = [
   "http://localhost:300/login",
   "http://localhost:9001",
   "https://capstone-fe-abdul.herokuapp.com",
+  "https://capstone-fe.vercel.app",
 ];
 const corsOptions = {
   origin: (origin, callback) => {
