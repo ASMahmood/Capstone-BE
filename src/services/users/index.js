@@ -4,13 +4,25 @@ const {
   authorizeUser,
 } = require("../../utilities/authTools");
 const UserModel = require("./schema");
+const multer = require("multer");
+const cloudinary = require("../../utilities/cloudinary");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "CAPSTONE",
+  },
+});
+const cloudinaryMulter = multer({ storage: storage });
+
 const userRouter = express.Router();
 
 userRouter.post("/register", async (req, res, next) => {
   try {
     const newUser = new UserModel(req.body);
     const { _id } = await newUser.save();
-    res.send({ message: "user registered!" });
+    res.send({ message: _id });
   } catch (error) {
     console.log(error);
     next(error);
@@ -102,5 +114,47 @@ userRouter.put("/:id", authorizeUser, async (req, res, next) => {
     next(error);
   }
 });
+
+userRouter.put(
+  "/me/upload",
+  authorizeUser,
+  cloudinaryMulter.single("ProfilePic"),
+  async (req, res, next) => {
+    try {
+      const addedIMG = await UserModel.findByIdAndUpdate(
+        req.user._id,
+        { profilePic: req.file.path },
+        { runValidators: true, new: true }
+      );
+      res.send(addedIMG);
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+);
+
+userRouter.put(
+  "/:id/uploadOnlyOnce",
+  cloudinaryMulter.single("ProfilePic"),
+  async (req, res, next) => {
+    try {
+      const user = await UserModel.findById(req.params.id);
+      if (user.profilePic) {
+        res.send({ message: "This account already has a profile picture." });
+      } else {
+        const addedIMG = await UserModel.findByIdAndUpdate(
+          req.params.id,
+          { profilePic: req.file.path },
+          { runValidators: true, new: true }
+        );
+        res.send(addedIMG);
+      }
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+);
 
 module.exports = userRouter;
