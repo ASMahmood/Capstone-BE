@@ -3,6 +3,7 @@ const {
   authenticateUser,
   authorizeUser,
 } = require("../../utilities/authTools");
+const sgMail = require("@sendgrid/mail");
 const RoomModel = require("./schema");
 const UserModel = require("../users/schema");
 const roomRouter = express.Router();
@@ -65,6 +66,34 @@ roomRouter.put(
         res.send({ message: "authorized" });
       } else {
         res.status(401).send({ message: "This is not your account!" });
+      }
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+);
+
+//SEND JOIN EMAIL
+roomRouter.post(
+  "/addrequest/:roomId",
+  authorizeUser,
+  async (req, res, next) => {
+    try {
+      let requestedUser = await UserModel.findOne({ email: req.body.email });
+      if (requestedUser) {
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+        const msg = {
+          to: req.body.email,
+          from: "thepoopatroopa@gmail.com",
+          subject: "Room Request",
+          text: "You have been invited",
+          html: `<strong>You have been invited to a new room. <a href='http://localhost:3000/room/${req.params.roomId}?join=true'>Click here<a/> to join!</strong>`,
+        };
+        await sgMail.send(msg);
+        res.send({ message: "Invite sent!" });
+      } else {
+        res.send({ message: "No User with this email found!" });
       }
     } catch (error) {
       console.log(error);

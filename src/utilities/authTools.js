@@ -74,8 +74,7 @@ const verifyAccessToken = async (token) => {
     return decodedToken;
   } catch (error) {
     console.log(error);
-    const err = new Error("Failed to generate access token");
-    next(err);
+    throw new Error("Failed to generate access token");
   }
 };
 
