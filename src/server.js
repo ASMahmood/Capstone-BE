@@ -19,6 +19,7 @@ const whitelist = [
   "http://localhost:3000",
   "http://localhost:300/login",
   "http://localhost:9001",
+  "https://capstone-fe-abdul.herokuapp.com",
 ];
 const corsOptions = {
   origin: (origin, callback) => {
