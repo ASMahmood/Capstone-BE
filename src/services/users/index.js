@@ -77,6 +77,20 @@ userRouter.get("/me", authorizeUser, async (req, res, next) => {
   }
 });
 
+userRouter.put("/me", authorizeUser, async (req, res, next) => {
+  try {
+    const editedUser = await UserModel.findByIdAndUpdate(
+      req.user.id,
+      req.body,
+      { runValidators: true, new: true }
+    ).populate("rooms");
+    res.send(editedUser);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 userRouter.get("/:id", authorizeUser, async (req, res, next) => {
   try {
     const singleUser = await UserModel.findById(req.params.id).populate(
@@ -125,7 +139,7 @@ userRouter.put(
         req.user._id,
         { profilePic: req.file.path },
         { runValidators: true, new: true }
-      );
+      ).populate("rooms");
       res.send(addedIMG);
     } catch (error) {
       console.log(error);
