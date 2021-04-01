@@ -19,6 +19,9 @@ const UserSchema = new Schema({
   profilePic: {
     type: String,
   },
+  bioImage: {
+    type: String,
+  },
   associates: [{ type: Schema.Types.ObjectId, ref: "user" }],
   rooms: [{ type: Schema.Types.ObjectId, ref: "room" }],
 });
