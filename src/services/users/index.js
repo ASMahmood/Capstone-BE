@@ -58,6 +58,17 @@ userRouter.post("/login", async (req, res, next) => {
   }
 });
 
+userRouter.post("/logout", authorizeUser, async (req, res, next) => {
+  try {
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
+    res.status(200).send({ message: "Successfully logged out." });
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
+
 userRouter.get("/", authorizeUser, async (req, res, next) => {
   try {
     const allUsers = await UserModel.find().populate("rooms");
