@@ -22,7 +22,7 @@ userRouter.post("/register", async (req, res, next) => {
   try {
     const newUser = new UserModel(req.body);
     const { _id } = await newUser.save();
-    res.send({ message: _id });
+    res.send({ message: "user registered!" });
   } catch (error) {
     console.log(error);
     next(error);
