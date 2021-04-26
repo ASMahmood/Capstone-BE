@@ -71,8 +71,15 @@ userRouter.post("/logout", authorizeUser, async (req, res, next) => {
 
 userRouter.get("/", authorizeUser, async (req, res, next) => {
   try {
-    const allUsers = await UserModel.find().populate("rooms");
-    res.send(allUsers);
+    if (req.query.name) {
+      const filteredUsers = await UserModel.find({
+        username: { $regex: `.*${req.query.name}.*` },
+      }).populate("rooms");
+      res.send(filteredUsers);
+    } else {
+      const allUsers = await UserModel.find().populate("rooms");
+      res.send(allUsers);
+    }
   } catch (error) {
     console.log(error);
     next(error);
