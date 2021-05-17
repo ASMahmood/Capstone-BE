@@ -98,7 +98,7 @@ userRouter.get("/me", authorizeUser, async (req, res, next) => {
 userRouter.put("/me", authorizeUser, async (req, res, next) => {
   try {
     const editedUser = await UserModel.findByIdAndUpdate(
-      req.user.id,
+      req.user._id,
       req.body,
       { runValidators: true, new: true }
     ).populate("rooms");

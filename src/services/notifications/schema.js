@@ -22,7 +22,7 @@ const NotificationSchema = new Schema(
       ref: "Rooms",
       required: false,
     },
-    otherUser: {
+    senderUser: {
       type: Schema.Types.ObjectId,
       ref: "Users",
       required: false,
