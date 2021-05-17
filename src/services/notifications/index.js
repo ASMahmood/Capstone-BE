@@ -17,10 +17,10 @@ notificationRouter.post("/", authorizeUser, async (req, res, next) => {
 });
 
 //GET NOTIFICATIONS OF SINGLE USER
-notificationRouter.get("/:userId", authorizeUser, async (req, res, next) => {
+notificationRouter.get("/", authorizeUser, async (req, res, next) => {
   try {
     const userNotifications = await NotificationModel.find({
-      user: req.params.userId,
+      user: req.user._id,
     });
     if (userNotifications.length > 0) {
       res.send(userNotifications);
@@ -32,5 +32,29 @@ notificationRouter.get("/:userId", authorizeUser, async (req, res, next) => {
     next(error);
   }
 });
+
+//UPDATE NOTIFICATION AS SEEN
+notificationRouter.put(
+  "/:notificationId",
+  authorizeUser,
+  async (req, res, next) => {
+    try {
+      const notification = await UserModel.findById(req.params.notificationId);
+      if (req.user._id === notification.user) {
+        const editedNotification = await UserModel.findByIdAndUpdate(
+          req.user._id,
+          req.body,
+          { runValidators: true, new: true }
+        ).populate("rooms");
+        res.send(editedNotification);
+      } else {
+        res.status(401).send({ message: "This is not your account" });
+      }
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+);
 
 module.exports = notificationRouter;
